@@ -1,0 +1,58 @@
+name: rmbk-integration
+services:
+  postgres:
+    image: bitnami/postgresql:15
+    restart: always
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRESQL_DATABASE=keycloak
+      - POSTGRESQL_USERNAME=keycloak
+      - POSTGRESQL_PASSWORD=keycloak
+      - TZ=Europe/Budapest
+      - POSTGRESQL_TIMEZONE=Europe/Budapest
+      - POSTGRESQL_LOG_TIMEZONE=Europe/Budapest
+    volumes:
+      - dbdata:/bitnami/postgresql
+  keycloak:
+    image: rmegyesi/rmbk:26.1.0
+    restart: always
+    depends_on:
+      - postgres
+    ports:
+      - "8080:8080"
+      - "8443:8443"
+    environment:
+      - TZ=Europe/Budapest
+      - KEYCLOAK_ADMIN=admin
+      - KEYCLOAK_ADMIN_PASSWORD=admin
+      - KC_DB=postgres
+      - KC_DB_URL_HOST=postgres
+      - KC_DB_URL_PORT=5432
+      - KC_DB_URL_DATABASE=keycloak
+      - KC_DB_USERNAME=keycloak
+      - KC_DB_PASSWORD=keycloak
+      - KC_TRANSACTION_XA_ENABLED=false
+      - KC_HEALTH_ENABLED=true
+      - KC_METRICS_ENABLED=true
+      - KC_TRACING_ENABLED=true
+      - KC_TRACING_ENDPOINT=http://jaeger:4317
+      - KC_LOG_LEVEL=INFO,hu.alerant:DEBUG
+    command:
+      - "start-dev"
+    volumes:
+      - "./docker/providers:/opt/keycloak/providers"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+  user-storage-app:
+    image: rmegyesi/rmbk-user-storage-app:1.0-SNAPSHOT
+    restart: always
+    environment:
+      - QUARKUS_OTEL_EXPORTER_OTLP_ENDPOINT=http://jaeger:4317
+  jaeger:
+    image: jaegertracing/all-in-one
+    restart: always
+    ports:
+      - "16686:16686"
+volumes:
+  dbdata:

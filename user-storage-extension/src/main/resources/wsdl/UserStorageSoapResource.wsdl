@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions name="UserStorageSoapResource" targetNamespace="http://soap.userstorage.rmbk.rmegyesi.hu/"
+                  xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://soap.userstorage.rmbk.rmegyesi.hu/"
+                  xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
+  <wsdl:types>
+<xs:schema xmlns:tns="http://soap.userstorage.rmbk.rmegyesi.hu/" xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="unqualified" targetNamespace="http://soap.userstorage.rmbk.rmegyesi.hu/" version="1.0">
+
+  <xs:element name="authenticateUser" type="tns:authenticateUser"/>
+
+  <xs:element name="authenticateUserResponse" type="tns:authenticateUserResponse"/>
+
+  <xs:element name="getUserByUsername" type="tns:getUserByUsername"/>
+
+  <xs:element name="getUserByUsernameResponse" type="tns:getUserByUsernameResponse"/>
+
+  <xs:element name="getUsers" type="tns:getUsers"/>
+
+  <xs:element name="getUsersResponse" type="tns:getUsersResponse"/>
+
+  <xs:complexType name="getUsers">
+    <xs:sequence/>
+  </xs:complexType>
+
+  <xs:complexType name="getUsersResponse">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:userEntity"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="userEntity">
+    <xs:complexContent>
+      <xs:extension base="tns:panacheEntityBase">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="id" type="xs:long"/>
+          <xs:element name="enabled" type="xs:boolean"/>
+          <xs:element minOccurs="0" name="username" type="xs:string"/>
+          <xs:element minOccurs="0" name="firstName" type="xs:string"/>
+          <xs:element minOccurs="0" name="lastName" type="xs:string"/>
+          <xs:element minOccurs="0" name="email" type="xs:string"/>
+          <xs:element minOccurs="0" name="createdAt" type="xs:dateTime"/>
+          <xs:element minOccurs="0" name="password" type="xs:string"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType abstract="true" name="panacheEntityBase">
+    <xs:sequence/>
+  </xs:complexType>
+
+  <xs:complexType name="getUserByUsername">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="username" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="getUserByUsernameResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:userEntity"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="authenticateUser">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="username" type="xs:string"/>
+      <xs:element minOccurs="0" name="password" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="authenticateUserResponse">
+    <xs:sequence>
+      <xs:element name="return" type="xs:boolean"/>
+    </xs:sequence>
+  </xs:complexType>
+
+</xs:schema>
+  </wsdl:types>
+  <wsdl:message name="getUsers">
+    <wsdl:part name="parameters" element="tns:getUsers">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getUserByUsername">
+    <wsdl:part name="parameters" element="tns:getUserByUsername">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="authenticateUser">
+    <wsdl:part name="parameters" element="tns:authenticateUser">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getUserByUsernameResponse">
+    <wsdl:part name="parameters" element="tns:getUserByUsernameResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getUsersResponse">
+    <wsdl:part name="parameters" element="tns:getUsersResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="authenticateUserResponse">
+    <wsdl:part name="parameters" element="tns:authenticateUserResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="UserStorageSoapResource">
+    <wsdl:operation name="getUsers">
+      <wsdl:input name="getUsers" message="tns:getUsers">
+    </wsdl:input>
+      <wsdl:output name="getUsersResponse" message="tns:getUsersResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getUserByUsername">
+      <wsdl:input name="getUserByUsername" message="tns:getUserByUsername">
+    </wsdl:input>
+      <wsdl:output name="getUserByUsernameResponse" message="tns:getUserByUsernameResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="authenticateUser">
+      <wsdl:input name="authenticateUser" message="tns:authenticateUser">
+    </wsdl:input>
+      <wsdl:output name="authenticateUserResponse" message="tns:authenticateUserResponse">
+    </wsdl:output>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="UserStorageSoapResourceSoapBinding" type="tns:UserStorageSoapResource">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="getUsers">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getUsers">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getUsersResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getUserByUsername">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getUserByUsername">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getUserByUsernameResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="authenticateUser">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="authenticateUser">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="authenticateUserResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="UserStorageSoapResource">
+    <wsdl:port name="UserStorageSoapResourcePort" binding="tns:UserStorageSoapResourceSoapBinding">
+      <soap:address location="http://localhost:9090/UserStorageSoapResourcePort"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

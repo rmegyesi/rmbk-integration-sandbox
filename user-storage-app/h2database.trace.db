@@ -1,0 +1,3 @@
+2025-01-23 16:56:54.963222+01:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "USER_ENTITY" not found (this database is empty); SQL statement:
+select ue1_0.id,ue1_0.created_at,ue1_0.email,ue1_0.enabled,ue1_0.first_name,ue1_0.last_name,ue1_0.password,ue1_0.username from user_entity ue1_0 [42104-230]
